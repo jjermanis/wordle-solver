@@ -5,6 +5,7 @@ namespace wordle_solver
 {
     internal class PossibleWords
     {
+        private static HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
         private List<string> _options;
         private LetterDistribution _dist;
 
@@ -32,6 +33,16 @@ namespace wordle_solver
         public string BestGuess()
             => _options.FirstOrDefault();
 
+        public static bool IsValidResult(string result)
+        {
+            if (result.Length != 5)
+                return false;
+            foreach (var c in result)
+                if (!VALID_RESULT_CHARS.Contains(c))
+                    return false;
+            return true;
+        }
+        
         public void AddClue(string guess, string result)
         {
             var newList = new List<string>();

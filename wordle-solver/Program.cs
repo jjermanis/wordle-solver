@@ -7,7 +7,7 @@ namespace wordle_solver
     {
         private const string FILE_PATH = @"..\..\..\words.txt";
 
-        private static void Main(string[] args)
+        private static void Main(string[] _)
         {
             var words = File.ReadLines(FILE_PATH);
             var options = new PossibleWords(words);
@@ -19,8 +19,7 @@ namespace wordle_solver
             {
                 var currGuess = options.BestGuess();
                 Console.WriteLine($"Please guess: {currGuess}");
-                Console.Write("Result? ");
-                var result = Console.ReadLine().ToUpper();
+                var result = PromptResult();
                 if (result == "GGGGG")
                 {
                     Console.WriteLine("Congrats!");
@@ -29,6 +28,19 @@ namespace wordle_solver
                 options.AddClue(currGuess, result);
             }
             Console.WriteLine("Looks like you ran out of guesses. My fault.");
+        }
+
+        private static string PromptResult()
+        {
+            while (true)
+            {
+                Console.Write("Result? ");
+                var result = Console.ReadLine().ToUpper();
+                if (!PossibleWords.IsValidResult(result))
+                    Console.WriteLine("Incorrect format. Results should be five letters long. G for green, Y for yellow, and X for gray.");
+                else
+                    return result;
+            }
         }
     }
 }
