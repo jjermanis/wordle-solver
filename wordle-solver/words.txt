@@ -3889,7 +3889,6 @@ unset
 augur
 sated
 odium
-latin
 dings
 moire
 scion
@@ -3949,7 +3948,6 @@ rusks
 avast
 swami
 boded
-ahhhh
 lobed
 natch
 shish
@@ -4615,7 +4613,6 @@ thats
 yawls
 whens
 abaca
-ohhhh
 aphis
 fusty
 eclat
@@ -4706,7 +4703,6 @@ blowy
 wahoo
 lubra
 mecum
-whooo
 coqui
 sabra
 edema
@@ -5118,7 +5114,6 @@ limby
 jiffs
 treys
 bauds
-pffft
 mimer
 plebs
 caner
@@ -5484,7 +5479,6 @@ lilty
 micks
 arity
 pasha
-finif
 oinky
 gutty
 tetra
@@ -5616,7 +5610,6 @@ coper
 ruche
 geeks
 swags
-etext
 algin
 offed
 ninja
