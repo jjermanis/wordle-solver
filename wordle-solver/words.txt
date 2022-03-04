@@ -3334,10 +3334,8 @@ avail
 papal
 golly
 elite
-versa
 billy
 adieu
-annum
 howdy
 rhino
 norms
@@ -3466,7 +3464,6 @@ tilde
 jingo
 bower
 serif
-facto
 belle
 inset
 bogus
@@ -3474,10 +3471,8 @@ caved
 forte
 sooty
 bongo
-toves
 credo
 basal
-yella
 aglow
 glean
 gusto
@@ -3490,11 +3485,9 @@ swash
 aleph
 tinny
 itchy
-wanta
 trice
 jowls
 gongs
-garde
 boric
 twill
 sower
@@ -3508,7 +3501,6 @@ penal
 obese
 sonny
 quirt
-mebbe
 tacit
 greek
 xenon
@@ -3655,7 +3647,6 @@ tibia
 afoul
 mommy
 titer
-carne
 kooky
 motes
 amity
@@ -3778,7 +3769,6 @@ slobs
 trike
 funky
 ducat
-dewey
 skoal
 wadis
 oomph
@@ -3922,7 +3912,6 @@ emcee
 prams
 poser
 verso
-hubba
 joule
 baize
 blips
@@ -3967,7 +3956,6 @@ quasi
 septa
 peaky
 lorry
-heerd
 bitty
 payee
 seamy
@@ -3986,8 +3974,6 @@ khans
 crypt
 inure
 nonce
-outen
-faire
 hooey
 anole
 kazoo
@@ -4008,7 +3994,6 @@ gaffe
 saxes
 recap
 synch
-facie
 dicey
 ouija
 hewer
@@ -4077,7 +4062,6 @@ avian
 wurst
 chock
 quash
-quals
 hayed
 bombe
 cushy
@@ -4109,11 +4093,9 @@ silty
 telex
 cutup
 nisei
-neato
 decaf
 softy
 bimbo
-adlib
 loony
 shoed
 agues
@@ -4338,7 +4320,6 @@ parse
 rants
 zingy
 toddy
-chiff
 micro
 veeps
 girly
@@ -4354,7 +4335,6 @@ epees
 wimps
 tromp
 grail
-yoyos
 poufs
 hales
 roust
