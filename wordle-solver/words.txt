@@ -5327,7 +5327,6 @@ mulct
 reeve
 civvy
 canna
-barfy
 kaiak
 scudo
 knout
@@ -5337,7 +5336,6 @@ pease
 uteri
 lases
 paten
-rasae
 axels
 stoas
 ombre
@@ -5345,7 +5343,6 @@ styli
 gunky
 hazer
 kenaf
-ahoys
 ammos
 weeny
 urger
@@ -5355,7 +5352,6 @@ bolos
 fetor
 nitty
 techy
-lieth
 somas
 darky
 villi
@@ -5368,17 +5364,13 @@ jinns
 ruing
 slily
 ricer
-hadda
 wowee
 rices
 nerts
 cauls
 swive
-lilty
 micks
-arity
 pasha
-oinky
 gutty
 tetra
 wises
@@ -5386,10 +5378,8 @@ wolds
 balds
 picot
 whats
-shiki
 bungs
 snarf
-legos
 dungs
 stogy
 berms
@@ -5403,7 +5393,6 @@ latus
 gules
 razer
 doxie
-buena
 overs
 gutta
 zincs
@@ -5415,7 +5404,6 @@ jerry
 mohel
 ceder
 doges
-unmap
 folia
 rawly
 snark
@@ -5423,12 +5411,9 @@ topoi
 ceils
 immix
 yores
-diest
 bubba
 pomps
 forky
-turdy
-lawzy
 poohs
 worts
 gloms
@@ -5439,14 +5424,11 @@ tunny
 auric
 funks
 gaffs
-cordy
 curdy
 lisle
 toric
 soyas
 reman
-mungy
-carpy
 apish
 oaten
 gappy
@@ -5463,7 +5445,6 @@ mashy
 miens
 nonny
 olios
-grook
 sates
 agley
 corgi
@@ -5471,7 +5452,6 @@ dashy
 doser
 dildo
 apsos
-xored
 laker
 playa
 selah
@@ -5485,7 +5465,6 @@ sawer
 spics
 bedim
 snugs
-fanin
 azoic
 icers
 suers
@@ -5501,7 +5480,6 @@ turds
 swede
 easts
 cozen
-unhit
 pally
 aitch
 sedum
@@ -5512,11 +5490,9 @@ swags
 algin
 offed
 ninja
-holer
 doter
 toter
 besot
-dicut
 macer
 peens
 pewit
@@ -5527,7 +5503,6 @@ fluky
 doeth
 twats
 cruds
-bebug
 bider
 stele
 hexer
@@ -5580,7 +5555,6 @@ dewed
 nooky
 alkyl
 ixnay
-dovey
 holey
 cuber
 amyls
@@ -5598,11 +5572,9 @@ snook
 hying
 fuzed
 barms
-crink
 moots
 yerba
 rhumb
-unarc
 direr
 munge
 eland
@@ -5628,7 +5600,6 @@ taros
 lings
 dicky
 nerdy
-abend
 stela
 biggy
 laved
@@ -5637,7 +5608,6 @@ pubis
 wonky
 stied
 hypos
-assed
 spumy
 osier
 roble
