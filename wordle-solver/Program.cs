@@ -5,41 +5,37 @@ namespace wordle_solver
 {
     internal class Program
     {
+        private const string INTERACTIVE_ARG = "-p";
+        private const string TEST_ARG = "-t";
+        private const string ILLEGAL_CHECK_ARG = "-i";
+        private const string LEGAL_CHECK_ARG = "-l";
+
         private const string FILE_PATH = @"..\..\..\words.txt";
 
-        private static void Main(string[] _)
+        private static void Main(string[] args)
         {
             var words = File.ReadLines(FILE_PATH);
-            var options = new PossibleWords(words);
-            Console.WriteLine("Welcome to wordle-solver. This program will help you solve the daily Wordle puzzle.");
-            Console.WriteLine("To use, guess what this program suggests. Then, let this program know the result.");
-            Console.WriteLine("Enter the five colors from the result. G for green, Y for yellow, and X for gray.");
 
-            for (int i = 0; i < 6; i++)
-            {
-                var currGuess = options.BestGuess();
-                Console.WriteLine($"Please guess: {currGuess}");
-                var result = PromptResult();
-                if (result == "GGGGG")
-                {
-                    Console.WriteLine("Congrats!");
-                    return;
-                }
-                options.AddClue(currGuess, result);
-            }
-            Console.WriteLine("Looks like you ran out of guesses. My fault.");
-        }
+            var arg = args.Length > 0 ? args[0] : INTERACTIVE_ARG;
 
-        private static string PromptResult()
-        {
-            while (true)
+            switch (arg)
             {
-                Console.Write("Result? ");
-                var result = Console.ReadLine().ToUpper();
-                if (!PossibleWords.IsValidResult(result))
-                    Console.WriteLine("Incorrect format. Results should be five letters long. G for green, Y for yellow, and X for gray.");
-                else
-                    return result;
+                case TEST_ARG:
+                    // TODO - implement test mode
+                    throw new Exception("Not supported");
+
+                case ILLEGAL_CHECK_ARG:
+                    new DictionaryCheck(words).IllegalWordCheck();
+                    break;
+
+                case LEGAL_CHECK_ARG:
+                    new DictionaryCheck(words).PossibleAnswersCheck();
+                    break;
+
+                case INTERACTIVE_ARG:
+                default:
+                    new InteractiveGame(words).PlayGame();
+                    break;
             }
         }
     }

@@ -560,7 +560,6 @@ slide
 trunk
 error
 porch
-slave
 exist
 faced
 mines
@@ -2034,7 +2033,6 @@ hoist
 fades
 vicar
 acorn
-pussy
 gruff
 musty
 tarts
@@ -2232,7 +2230,6 @@ goody
 gazes
 dowel
 calms
-bitch
 scowl
 gulps
 coded
@@ -2832,7 +2829,6 @@ horny
 pales
 wreak
 lairs
-lynch
 stank
 swoon
 idler
@@ -2998,6 +2994,39 @@ golds
 croup
 snaky
 visas
+trope
+midge
+manga
+minty
+plier
+fritz
+anime
+geeky
+aunty
+utile
+cyber
+junto
+penne
+ramen
+savoy
+detox
+wight
+admin
+caput
+bicep
+pouty
+tonga
+inbox
+ovine
+boney
+droit
+ralph
+axion
+latte
+bleep
+ficus
+scree
+willy
 palls
 mopes
 boned
@@ -3443,7 +3472,6 @@ piper
 waxer
 calyx
 basil
-coons
 seine
 piney
 lemma
@@ -3526,7 +3554,6 @@ kiosk
 apace
 cawed
 peter
-wench
 cohos
 sorta
 gamba
@@ -3564,7 +3591,6 @@ ebbed
 breve
 theta
 deems
-dykes
 servo
 telly
 tabby
@@ -3604,7 +3630,6 @@ stein
 jello
 audit
 echos
-fagot
 letup
 eyrie
 fount
@@ -3616,7 +3641,6 @@ riled
 petit
 umber
 miler
-fibre
 agave
 bated
 bilge
@@ -3734,7 +3758,6 @@ troth
 testy
 balky
 crimp
-chink
 abets
 splat
 abaci
@@ -3927,7 +3950,6 @@ nanny
 trump
 fichu
 chomp
-homos
 purty
 maser
 woosh
@@ -4249,7 +4271,6 @@ piton
 hussy
 torts
 disco
-whore
 boozy
 gibed
 vamps
@@ -4404,7 +4425,6 @@ faxed
 egads
 pushy
 retry
-agora
 drubs
 daffy
 chits
@@ -4473,7 +4493,6 @@ naiad
 hider
 nuked
 fatso
-sluts
 obits
 narcs
 tyros
@@ -5216,7 +5235,6 @@ miaow
 gouts
 mynas
 mazer
-kikes
 oxeye
 stoup
 jujus
@@ -5353,7 +5371,6 @@ fetor
 nitty
 techy
 somas
-darky
 villi
 gluon
 janes
@@ -5462,7 +5479,6 @@ demit
 whoso
 rials
 sawer
-spics
 bedim
 snugs
 azoic
@@ -5613,4 +5629,3 @@ osier
 roble
 rumba
 biffy
-pupal

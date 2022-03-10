@@ -5,9 +5,9 @@ namespace wordle_solver
 {
     internal class PossibleWords
     {
-        private static HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
+        private readonly static HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
+        private readonly LetterDistribution _dist;
         private List<string> _options;
-        private LetterDistribution _dist;
 
         public PossibleWords(IEnumerable<string> words)
         {
@@ -42,7 +42,7 @@ namespace wordle_solver
                     return false;
             return true;
         }
-        
+
         public void AddClue(string guess, string result)
         {
             var newList = new List<string>();
