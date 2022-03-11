@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace wordle_solver
 {
-    internal class PossibleWords
+    public class PossibleWords
     {
-        private readonly static HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
+        private static readonly HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
         private readonly LetterDistribution _dist;
         private List<string> _options;
 
@@ -47,34 +47,41 @@ namespace wordle_solver
         {
             var newList = new List<string>();
             foreach (var word in _options)
-            {
-                var isMatch = true;
-                for (var i = 0; i < 5; i++)
-                {
-                    switch (result[i])
-                    {
-                        case 'G':
-                            if (word[i] != guess[i])
-                                isMatch = false;
-                            break;
-
-                        case 'Y':
-                            if (word[i] == guess[i])
-                                isMatch = false;
-                            if (!word.Contains(guess[i]))
-                                isMatch = false;
-                            break;
-
-                        case 'X':
-                            if (word.Contains(guess[i]))
-                                isMatch = false;
-                            break;
-                    }
-                }
-                if (isMatch)
+                if (IsWordValid(guess, result, word))
                     newList.Add(word);
-            }
+
             _options = newList;
         }
+
+        public static string CalcResult(string guess, string word)
+        {
+            var result = Enumerable.Repeat('X', 5).ToArray();
+            var remainingLetters = new List<char>();
+
+            // Check for greens first
+            for (var x = 0; x < 5; x++)
+            {
+                if (guess[x] == word[x])
+                    result[x] = 'G';
+                else
+                    remainingLetters.Add(word[x]);
+            }
+
+            // Now check for yellows
+            for (var x = 0; x < 5; x++)
+            {
+                if (result[x] != 'G' && remainingLetters.Contains(guess[x]))
+                {
+                    result[x] = 'Y';
+                    remainingLetters.Remove(guess[x]);
+                }
+            }
+
+            return new string(result);
+        }
+
+        public static bool IsWordValid(string guess, string result, string word)
+            // Word is valid if it would generate the same result as the most recent guess
+            => result.Equals(CalcResult(guess, word));
     }
 }
