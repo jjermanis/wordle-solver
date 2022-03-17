@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace wordle_solver
 {
@@ -21,8 +20,8 @@ namespace wordle_solver
             switch (arg)
             {
                 case TEST_ARG:
-                    // TODO - implement test mode
-                    throw new Exception("Not supported");
+                    new TestGame(words).RunTest();
+                    break;
 
                 case ILLEGAL_CHECK_ARG:
                     new DictionaryCheck(words).IllegalWordCheck();
