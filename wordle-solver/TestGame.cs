@@ -31,13 +31,39 @@ namespace wordle_solver
                 return total / cases;
             }
 
+            private decimal Score()
+            {
+                decimal total = 0;
+                decimal cases = 0;
+                for (int i = 1; i <= 6; i++)
+                {
+                    total += i * ScoreCount[i];
+                    cases += ScoreCount[i];
+                }
+                total += Misses * 10;
+
+                return total / cases;
+            }
+
+            private decimal WinRate()
+            {
+                decimal cases = 0;
+                for (int i = 1; i <= 6; i++)
+                {
+                    cases += ScoreCount[i];
+                }
+                return cases / (cases + Misses);
+            }
+
             public override string ToString()
             {
                 string result = "";
                 for (int i = 1; i <= 6; i++)
                     result += $"{i}: {ScoreCount[i]}\r\n";
                 result += $"Misses: {Misses}\r\n";
-                result += $"Average: {Average()}\r\n";
+                result += $"Win Rate: {WinRate().ToString("P3")}\r\n";
+                result += $"Average: {Average().ToString("0.000")}\r\n";
+                result += $"Score: {Score().ToString("0.000")}\r\n";
                 return result;
             }
         }
@@ -49,6 +75,7 @@ namespace wordle_solver
 
         public void RunTest()
         {
+            int start = Environment.TickCount;
             Console.WriteLine($"Running test: {TEST_SIZE} words");
             var testWords = _words.Take(TEST_SIZE);
             var results = new ResultDist();
@@ -61,6 +88,7 @@ namespace wordle_solver
                     results.Misses++;
             }
             Console.Write(results);
+            Console.WriteLine($"Time: {Environment.TickCount - start} ms");
         }
 
         public int? PlayGame(string target)
