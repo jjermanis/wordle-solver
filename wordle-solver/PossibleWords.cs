@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace wordle_solver
@@ -7,31 +8,24 @@ namespace wordle_solver
     {
         private static readonly HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
         private LetterDistribution _dist;
-        private List<string> _options;
+        private List<WordElement> _options;
 
         public PossibleWords(IEnumerable<string> words)
         {
             _dist = new LetterDistribution(words);
-            _options = words.OrderByDescending(w => Score(w)).ToList();
-        }
-
-        public long Score(string word)
-        {
-            var alreadySeen = new HashSet<char>();
-            var result = 1L;
-
-            foreach (var c in word)
+            _options = new List<WordElement>();
+            var rank = 1;
+            foreach (var word in words)
             {
-                if (alreadySeen.Contains(c))
-                    continue;
-                alreadySeen.Add(c);
-                result *= _dist.Frequency[c];
+                var popularScore = Math.Max(5 - (rank / 1000), 1);
+                _options.Add(new WordElement(word, popularScore));
+                rank++;
             }
-            return result;
+            _options = _options.OrderByDescending(o => o.CalcScore(_dist)).ToList();
         }
 
         public string BestGuess()
-            => _options.FirstOrDefault();
+            => _options.FirstOrDefault()?.Word;
 
         public static bool IsValidResult(string result)
         {
@@ -45,14 +39,16 @@ namespace wordle_solver
 
         public void AddClue(string guess, string result)
         {
-            var newList = new List<string>();
-            foreach (var word in _options)
+            var newList = new List<WordElement>();
+            foreach (var element in _options)
+            {
+                var word = element.Word;
                 if (IsWordValid(guess, result, word))
-                    newList.Add(word);
-
+                    newList.Add(element);
+            }
             _options = newList;
-            _dist = new LetterDistribution(_options);
-            _options = _options.OrderByDescending(w => Score(w)).ToList();
+            _dist = new LetterDistribution(_options.Select(o => o.Word));
+            _options = _options.OrderByDescending(o => o.CalcScore(_dist)).ToList();
         }
 
         public static string CalcResult(string guess, string word)
