@@ -7,7 +7,10 @@ Running test: 2000 words
 5: 383
 6: 202
 Misses: 195
+Win Rate: 90.250%
 Average: 4.114
+Score: 5.194
+Time: 8890 ms
 
 Running test: 4000 words
 1: 1
@@ -17,4 +20,36 @@ Running test: 4000 words
 5: 807
 6: 394
 Misses: 366
-Average: 4.132
+Win Rate: 90.850%
+Average: 4.133
+Score: 5.140
+Time: 18031 ms
+
+
+3/17/22
+Running test: 2000 words
+1: 1
+2: 76
+3: 503
+4: 728
+5: 397
+6: 161
+Misses: 134
+Win Rate: 93.300%
+Average: 4.033
+Score: 4.751
+Time: 9094 ms
+
+Running test: 4000 words
+1: 1
+2: 109
+3: 971
+4: 1532
+5: 774
+6: 322
+Misses: 291
+Win Rate: 92.725%
+Average: 4.061
+Score: 4.846
+Time: 18375 ms
+

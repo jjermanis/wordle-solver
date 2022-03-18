@@ -6,7 +6,7 @@ namespace wordle_solver
     public class PossibleWords
     {
         private static readonly HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
-        private readonly LetterDistribution _dist;
+        private LetterDistribution _dist;
         private List<string> _options;
 
         public PossibleWords(IEnumerable<string> words)
@@ -51,6 +51,8 @@ namespace wordle_solver
                     newList.Add(word);
 
             _options = newList;
+            _dist = new LetterDistribution(_options);
+            _options = _options.OrderByDescending(w => Score(w)).ToList();
         }
 
         public static string CalcResult(string guess, string word)
