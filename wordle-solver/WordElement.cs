@@ -10,6 +10,7 @@ namespace wordle_solver
         public string Word { get; set; }
 
         public IEnumerable<char> UniqueLetters { get => _uniqueLetters; }
+        public int CommonWordScore { get => _commonWordScore; }
 
         public WordElement(string word, int commonWordScore)
         {

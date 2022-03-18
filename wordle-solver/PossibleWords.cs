@@ -7,12 +7,19 @@ namespace wordle_solver
     public class PossibleWords
     {
         private static readonly HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
+
+        private readonly List<string> _allWords;
+        private int _remainingGuesses;
         private LetterDistribution _dist;
+        private int? _remainingLetterIndex;
         private List<WordElement> _options;
 
-        public PossibleWords(IEnumerable<string> words)
+        public PossibleWords(IEnumerable<string> words, int totalGuesses)
         {
+            _allWords = new List<string>(words);
             _dist = new LetterDistribution(words);
+            _remainingGuesses = totalGuesses;
+
             _options = new List<WordElement>();
             var rank = 1;
             foreach (var word in words)
@@ -25,7 +32,42 @@ namespace wordle_solver
         }
 
         public string BestGuess()
-            => _options.FirstOrDefault()?.Word;
+
+        {
+            if (!_remainingLetterIndex.HasValue
+                || _options.Count <= 2
+                || _remainingGuesses == 1)
+                return _options.FirstOrDefault()?.Word;
+            else
+                return SearchingGuess();
+        }
+
+        public string SearchingGuess()
+        {
+            var candidateLetters = new Dictionary<char, int>();
+            foreach (var word in _options)
+                candidateLetters[word.Word[_remainingLetterIndex.Value]] = word.CommonWordScore * 2;
+
+            var bestScore = 1;
+            var bestWord = "";
+            foreach (var word in _allWords)
+            {
+                var currScore = 1;
+                var currCandidates = new Dictionary<char, int>(candidateLetters);
+                foreach (var c in word)
+                    if (currCandidates.ContainsKey(c))
+                    {
+                        currScore *= currCandidates[c];
+                        currCandidates.Remove(c);
+                    }
+                if (currScore > bestScore)
+                {
+                    bestScore = currScore;
+                    bestWord = word;
+                }
+            }
+            return bestWord;
+        }
 
         public static bool IsValidResult(string result)
         {
@@ -37,8 +79,13 @@ namespace wordle_solver
             return true;
         }
 
-        public void AddClue(string guess, string result)
+        public void UpdateGuess(string guess, string result)
         {
+            _remainingGuesses--;
+
+            if (result.Count(c => c == 'G') == 4)
+                _remainingLetterIndex = result.IndexOf('X');
+
             var newList = new List<WordElement>();
             foreach (var element in _options)
             {

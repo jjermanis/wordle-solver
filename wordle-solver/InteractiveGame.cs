@@ -5,6 +5,8 @@ namespace wordle_solver
 {
     internal class InteractiveGame
     {
+        private const int GUESS_COUNT = 6;
+
         private readonly IEnumerable<string> _words;
 
         public InteractiveGame(IEnumerable<string> words)
@@ -14,12 +16,12 @@ namespace wordle_solver
 
         public void PlayGame()
         {
-            var options = new PossibleWords(_words);
+            var options = new PossibleWords(_words, GUESS_COUNT);
             Console.WriteLine("Welcome to wordle-solver. This program will help you solve the daily Wordle puzzle.");
             Console.WriteLine("To use, guess what this program suggests. Then, let this program know the result.");
             Console.WriteLine("Enter the five colors from the result. G for green, Y for yellow, and X for gray.");
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < GUESS_COUNT; i++)
             {
                 var currGuess = options.BestGuess();
                 Console.WriteLine($"Please guess: {currGuess}");
@@ -29,7 +31,7 @@ namespace wordle_solver
                     Console.WriteLine("Congrats!");
                     return;
                 }
-                options.AddClue(currGuess, result);
+                options.UpdateGuess(currGuess, result);
             }
             Console.WriteLine("Looks like you ran out of guesses. My fault.");
         }

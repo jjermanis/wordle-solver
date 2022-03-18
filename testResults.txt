@@ -53,3 +53,59 @@ Average: 4.061
 Score: 4.846
 Time: 18375 ms
 
+
+3/18/22
+Running test: 2000 words
+1: 1
+2: 109
+3: 704
+4: 781
+5: 282
+6: 86
+Misses: 37
+Win Rate: 98.150%
+Average: 3.760
+Score: 3.949
+Time: 9813 ms
+
+Running test: 4000 words
+1: 1
+2: 130
+3: 1139
+4: 1550
+5: 727
+6: 268
+Misses: 185
+Win Rate: 95.375%
+Average: 3.964
+Score: 4.448
+Time: 19281 ms
+
+
+3/19/22
+Running test: 2000 words
+1: 1
+2: 109
+3: 668
+4: 765
+5: 325
+6: 110
+Misses: 22
+Win Rate: 98.900%
+Average: 3.826
+Score: 3.937
+Time: 10281 ms
+
+Running test: 4000 words
+1: 1
+2: 130
+3: 1099
+4: 1536
+5: 834
+6: 303
+Misses: 97
+Win Rate: 97.575%
+Average: 4.020
+Score: 4.269
+Time: 20562 ms
+

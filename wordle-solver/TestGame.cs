@@ -6,6 +6,7 @@ namespace wordle_solver
 {
     public class TestGame
     {
+        private const int GUESS_COUNT = 6;
         private const int TEST_SIZE = 2000;
         private readonly IList<string> _words;
 
@@ -13,7 +14,7 @@ namespace wordle_solver
         {
             public ResultDist()
             {
-                ScoreCount = new int[7];
+                ScoreCount = new int[GUESS_COUNT + 1];
             }
 
             public int[] ScoreCount { get; set; }
@@ -23,7 +24,7 @@ namespace wordle_solver
             {
                 decimal total = 0;
                 decimal cases = 0;
-                for (int i = 1; i <= 6; i++)
+                for (int i = 1; i <= GUESS_COUNT; i++)
                 {
                     total += i * ScoreCount[i];
                     cases += ScoreCount[i];
@@ -35,7 +36,7 @@ namespace wordle_solver
             {
                 decimal total = 0;
                 decimal cases = 0;
-                for (int i = 1; i <= 6; i++)
+                for (int i = 1; i <= GUESS_COUNT; i++)
                 {
                     total += i * ScoreCount[i];
                     cases += ScoreCount[i];
@@ -48,7 +49,7 @@ namespace wordle_solver
             private decimal WinRate()
             {
                 decimal cases = 0;
-                for (int i = 1; i <= 6; i++)
+                for (int i = 1; i <= GUESS_COUNT; i++)
                 {
                     cases += ScoreCount[i];
                 }
@@ -58,7 +59,7 @@ namespace wordle_solver
             public override string ToString()
             {
                 string result = "";
-                for (int i = 1; i <= 6; i++)
+                for (int i = 1; i <= GUESS_COUNT; i++)
                     result += $"{i}: {ScoreCount[i]}\r\n";
                 result += $"Misses: {Misses}\r\n";
                 result += $"Win Rate: {WinRate().ToString("P3")}\r\n";
@@ -93,9 +94,9 @@ namespace wordle_solver
 
         public int? PlayGame(string target)
         {
-            var options = new PossibleWords(_words);
+            var options = new PossibleWords(_words, GUESS_COUNT);
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < GUESS_COUNT; i++)
             {
                 var currGuess = options.BestGuess();
                 var result = GetResult(currGuess, target);
@@ -103,7 +104,7 @@ namespace wordle_solver
                 {
                     return i + 1;
                 }
-                options.AddClue(currGuess, result);
+                options.UpdateGuess(currGuess, result);
             }
             return null;
         }
