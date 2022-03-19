@@ -112,8 +112,9 @@ namespace wordle_solver
 
         public static string CalcResult(string guess, string word)
         {
-            var result = Enumerable.Repeat('X', 5).ToArray();
-            var remainingLetters = new List<char>();
+            Span<char> result = stackalloc char[5];
+            Span<bool> remainingLetters = stackalloc bool[27];
+            remainingLetters.Fill(false);
 
             // Check for greens first
             for (var x = 0; x < 5; x++)
@@ -121,16 +122,19 @@ namespace wordle_solver
                 if (guess[x] == word[x])
                     result[x] = 'G';
                 else
-                    remainingLetters.Add(word[x]);
+                {
+                    remainingLetters[word[x] - 'a'] = true;
+                    result[x] = 'X';
+                }
             }
 
             // Now check for yellows
             for (var x = 0; x < 5; x++)
             {
-                if (result[x] != 'G' && remainingLetters.Contains(guess[x]))
+                if (result[x] != 'G' && remainingLetters[guess[x] - 'a'])
                 {
                     result[x] = 'Y';
-                    remainingLetters.Remove(guess[x]);
+                    remainingLetters[guess[x] - 'a'] = false;
                 }
             }
 
