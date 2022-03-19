@@ -8,7 +8,9 @@ namespace wordle_solver
     {
         private const int GUESS_COUNT = 6;
         private const int TEST_SIZE = 2000;
-        private readonly IList<string> _words;
+        private readonly IList<string> _allWords;
+        private readonly LetterDistribution _startingLetterDistribution;
+        private readonly IList<WordElement> _startingWordOptions;
 
         private class ResultDist
         {
@@ -71,14 +73,16 @@ namespace wordle_solver
 
         public TestGame(IEnumerable<string> words)
         {
-            _words = words.ToList();
+            _allWords = words.ToList();
+            _startingLetterDistribution = new LetterDistribution(words);
+            _startingWordOptions = WordElement.GetWordElementList(words, _startingLetterDistribution);
         }
 
         public void RunTest()
         {
             int start = Environment.TickCount;
             Console.WriteLine($"Running test: {TEST_SIZE} words");
-            var testWords = _words.Take(TEST_SIZE);
+            var testWords = _allWords.Take(TEST_SIZE);
             var results = new ResultDist();
             foreach (var word in testWords)
             {
@@ -94,7 +98,9 @@ namespace wordle_solver
 
         public int? PlayGame(string target)
         {
-            var options = new PossibleWords(_words, GUESS_COUNT);
+            var options = new PossibleWords(
+                _allWords, _startingLetterDistribution,
+                _startingWordOptions, GUESS_COUNT);
 
             for (int i = 0; i < GUESS_COUNT; i++)
             {

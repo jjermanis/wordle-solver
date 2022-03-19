@@ -2,7 +2,7 @@
 
 namespace wordle_solver
 {
-    internal class LetterDistribution
+    public class LetterDistribution
     {
         public IDictionary<char, int> Frequency { get; set; }
 

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace wordle_solver
 {
-    internal class WordElement
+    public class WordElement
     {
         private readonly List<char> _uniqueLetters;
         private readonly int _commonWordScore;
@@ -35,5 +37,21 @@ namespace wordle_solver
 
         public override string ToString()
             => Word;
+
+        public static IList<WordElement> GetWordElementList(
+            IEnumerable<string> words,
+            LetterDistribution dist)
+        {
+            var result = new List<WordElement>();
+            var rank = 1;
+            foreach (var word in words)
+            {
+                var popularScore = Math.Max(5 - (rank / 1000), 1);
+                result.Add(new WordElement(word, popularScore));
+                rank++;
+            }
+            result = result.OrderByDescending(o => o.CalcScore(dist)).ToList();
+            return result;
+        }
     }
 }

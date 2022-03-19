@@ -8,11 +8,11 @@ namespace wordle_solver
     {
         private static readonly HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
 
-        private readonly List<string> _allWords;
+        private readonly IList<string> _allWords;
         private int _remainingGuesses;
         private LetterDistribution _dist;
         private int? _remainingLetterIndex;
-        private List<WordElement> _options;
+        private IList<WordElement> _options;
 
         public PossibleWords(IEnumerable<string> words, int totalGuesses)
         {
@@ -29,6 +29,18 @@ namespace wordle_solver
                 rank++;
             }
             _options = _options.OrderByDescending(o => o.CalcScore(_dist)).ToList();
+        }
+
+        public PossibleWords(
+            IList<string> allWords,
+            LetterDistribution letterDistribution,
+            IList<WordElement> startingWordOptions,
+            int totalGuesses)
+        {
+            _allWords = allWords;
+            _dist = letterDistribution;
+            _remainingGuesses = totalGuesses;
+            _options = startingWordOptions;
         }
 
         public string BestGuess()
