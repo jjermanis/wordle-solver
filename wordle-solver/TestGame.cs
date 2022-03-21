@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace wordle_solver
 {
@@ -21,20 +24,29 @@ namespace wordle_solver
 
         public void RunTest()
         {
-            int start = Environment.TickCount;
+            var sw = Stopwatch.StartNew();
             Console.WriteLine($"Running test: {TEST_SIZE} words");
             var testWords = _allWords.Take(TEST_SIZE);
             var results = new ResultDistribution(GUESS_COUNT);
-            foreach (var word in testWords)
+
+            int[] scoreCounts = new int[6];
+            int misses = 0;
+
+            Parallel.ForEach(testWords, word =>
             {
                 var score = PlayGame(word);
                 if (score.HasValue)
-                    results.ScoreCount[score.Value]++;
+                    Interlocked.Increment(ref scoreCounts[score.Value - 1]);
                 else
-                    results.Misses++;
-            }
+                    Interlocked.Increment(ref misses);
+            });
+
+            results.Misses = misses;
+            for (int i = 0; i < scoreCounts.Length; i++)
+                results.ScoreCount[i + 1] = scoreCounts[i];
+
             Console.Write(results);
-            Console.WriteLine($"Time: {Environment.TickCount - start} ms");
+            Console.WriteLine($"Time: {sw.Elapsed} ms");
         }
 
         public int? PlayGame(string target)
