@@ -16,6 +16,7 @@ namespace wordle_solver
             var words = File.ReadLines(FILE_PATH);
 
             var arg = args.Length > 0 ? args[0] : INTERACTIVE_ARG;
+            arg = TEST_ARG;
 
             switch (arg)
             {

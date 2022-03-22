@@ -6,6 +6,7 @@ namespace wordle_solver
 {
     public class WordElement
     {
+        private readonly HashSet<char> VOWELS = new HashSet<char> { 'a', 'e', 'i', 'o', 'u' };
         private readonly List<char> _uniqueLetters;
         private readonly int _commonWordScore;
 
@@ -25,14 +26,22 @@ namespace wordle_solver
                     _uniqueLetters.Add(c);
         }
 
-        public long CalcScore(LetterDistribution dist)
+        public decimal CalcScore(LetterDistribution dist, int guessNum)
         {
-            var result = 1L;
+            var result = 1M;
 
             foreach (var c in UniqueLetters)
-                result *= dist.Frequency[c];
+                result *=  dist.Frequency[c];
 
-            return result * _commonWordScore;
+            var consonantCount = 5;
+            foreach (var c in Word)
+                if (VOWELS.Contains(c))
+                    consonantCount--;
+            var consonantScore = 1;
+            for (var x = guessNum; x < 4; x++)
+                consonantScore *= consonantCount;
+
+            return result * consonantScore * _commonWordScore;
         }
 
         public override string ToString()
@@ -50,7 +59,7 @@ namespace wordle_solver
                 result.Add(new WordElement(word, popularScore));
                 rank++;
             }
-            result = result.OrderByDescending(o => o.CalcScore(dist)).ToList();
+            result = result.OrderByDescending(o => o.CalcScore(dist, 1)).ToList();
             return result;
         }
     }
