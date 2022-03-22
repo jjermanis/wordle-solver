@@ -122,7 +122,7 @@ Misses: 22
 Win Rate: 98.900%
 Average: 3.826
 Score: 3.937
-Time: 3203 ms
+Time: 3344 ms
 
 Running test: 4000 words
 1: 1
@@ -135,6 +135,60 @@ Misses: 97
 Win Rate: 97.575%
 Average: 4.020
 Score: 4.269
-Time: 6687 ms
+Time: 6875 ms
 
 
+3/21/22
+Running test: 2000 words
+1: 1
+2: 109
+3: 668
+4: 765
+5: 325
+6: 110
+Misses: 22
+Win Rate: 98.900%
+Average: 3.826
+Score: 3.937
+Time: 2469 ms
+
+Running test: 4000 words
+1: 1
+2: 130
+3: 1099
+4: 1536
+5: 834
+6: 303
+Misses: 97
+Win Rate: 97.575%
+Average: 4.020
+Score: 4.269
+Time: 5062 ms
+
+
+3/22/22
+Running test: 2000 words
+1: 1
+2: 104
+3: 704
+4: 810
+5: 295
+6: 83
+Misses: 3
+Win Rate: 99.850%
+Average: 3.773
+Score: 3.788
+Time: 2703 ms
+
+Running test: 4000 words
+1: 1
+2: 130
+3: 1132
+4: 1648
+5: 777
+6: 269
+Misses: 43
+Win Rate: 98.925%
+Average: 3.980
+Score: 4.088
+Time: 5390 ms

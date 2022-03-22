@@ -8,6 +8,8 @@ namespace wordle_solver
     {
         private const int GUESS_COUNT = 6;
         private const int TEST_SIZE = 2000;
+        private readonly bool SHOW_WORD_DETAILS = false;
+
         private readonly IList<string> _allWords;
         private readonly LetterDistribution _startingLetterDistribution;
         private readonly IList<WordElement> _startingWordOptions;
@@ -25,13 +27,19 @@ namespace wordle_solver
             Console.WriteLine($"Running test: {TEST_SIZE} words");
             var testWords = _allWords.Take(TEST_SIZE);
             var results = new ResultDistribution(GUESS_COUNT);
+            if (SHOW_WORD_DETAILS)
+                Console.WriteLine($"First guess: {_startingWordOptions.First()}");
             foreach (var word in testWords)
             {
                 var score = PlayGame(word);
                 if (score.HasValue)
                     results.ScoreCount[score.Value]++;
                 else
+                {
                     results.Misses++;
+                    if (SHOW_WORD_DETAILS)
+                        Console.WriteLine($"Missed: {word}");
+                }
             }
             Console.Write(results);
             Console.WriteLine($"Time: {Environment.TickCount - start} ms");

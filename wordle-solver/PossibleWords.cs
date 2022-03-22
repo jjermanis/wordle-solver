@@ -9,6 +9,7 @@ namespace wordle_solver
         private static readonly HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
 
         private readonly IList<string> _allWords;
+        private readonly int _totalGuesses;
         private int _remainingGuesses;
         private LetterDistribution _dist;
         private int? _remainingLetterIndex;
@@ -18,6 +19,7 @@ namespace wordle_solver
         {
             _allWords = new List<string>(words);
             _dist = new LetterDistribution(words);
+            _totalGuesses = totalGuesses;
             _remainingGuesses = totalGuesses;
 
             _options = new List<WordElement>();
@@ -28,7 +30,7 @@ namespace wordle_solver
                 _options.Add(new WordElement(word, popularScore));
                 rank++;
             }
-            _options = _options.OrderByDescending(o => o.CalcScore(_dist)).ToList();
+            _options = _options.OrderByDescending(o => o.CalcScore(_dist, 1)).ToList();
         }
 
         public PossibleWords(
@@ -40,6 +42,7 @@ namespace wordle_solver
             _allWords = allWords;
             _dist = letterDistribution;
             _remainingGuesses = totalGuesses;
+            _totalGuesses = totalGuesses;
             _options = startingWordOptions;
         }
 
@@ -107,7 +110,8 @@ namespace wordle_solver
             }
             _options = newList;
             _dist = new LetterDistribution(_options.Select(o => o.Word));
-            _options = _options.OrderByDescending(o => o.CalcScore(_dist)).ToList();
+            var moveNum = _totalGuesses - _remainingGuesses + 1;
+            _options = _options.OrderByDescending(o => o.CalcScore(_dist, moveNum)).ToList();
         }
 
         public static string CalcResult(string guess, string word)
@@ -138,7 +142,15 @@ namespace wordle_solver
         }
 
         public static bool IsWordValid(string guess, string result, string word)
+        {
+            // Optimization: do a simple check first. For each char, if the result is G, they
+            // need to match, and if the result isn't G, they need to NOT match.
+            for (int x = 0; x < 5; x++)
+                if ((result[x] == 'G') == (guess[x] != word[x]))
+                    return false;
+
             // Word is valid if it would generate the same result as the most recent guess
-            => result.Equals(CalcResult(guess, word));
+            return result.Equals(CalcResult(guess, word));
+        }
     }
 }
