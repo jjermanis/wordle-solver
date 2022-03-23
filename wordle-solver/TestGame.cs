@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace wordle_solver
 {
@@ -29,7 +30,7 @@ namespace wordle_solver
             var results = new ResultDistribution(GUESS_COUNT);
             if (SHOW_WORD_DETAILS)
                 Console.WriteLine($"First guess: {_startingWordOptions.First()}");
-            foreach (var word in testWords)
+            Parallel.ForEach(testWords, word =>
             {
                 var score = PlayGame(word);
                 if (score.HasValue)
@@ -40,7 +41,9 @@ namespace wordle_solver
                     if (SHOW_WORD_DETAILS)
                         Console.WriteLine($"Missed: {word}");
                 }
-            }
+
+            });
+
             Console.Write(results);
             Console.WriteLine($"Time: {Environment.TickCount - start} ms");
         }
