@@ -1,13 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace wordle_solver
 {
     internal class Program
     {
-        private const string INTERACTIVE_ARG = "-p";
-        private const string TEST_ARG = "-t";
-        private const string ILLEGAL_CHECK_ARG = "-i";
-        private const string LEGAL_CHECK_ARG = "-l";
 
         private const string FILE_PATH = @"..\..\..\words.txt";
 
@@ -15,26 +13,35 @@ namespace wordle_solver
         {
             var words = File.ReadLines(FILE_PATH);
 
-            var arg = args.Length > 0 ? args[0] : INTERACTIVE_ARG;
+            var commandArgs = new CommandLineArgs(args);
 
-            switch (arg)
+            // TODO: implement hardmode
+
+            switch (commandArgs.Action)
             {
-                case TEST_ARG:
+                case GameActions.TestEngine:
                     new TestGame(words).RunTest();
                     break;
 
-                case ILLEGAL_CHECK_ARG:
+                case GameActions.DictionaryCheckIllegal:
                     new DictionaryCheck(words).IllegalWordCheck();
                     break;
 
-                case LEGAL_CHECK_ARG:
+                case GameActions.DictionaryCheckLegal:
                     new DictionaryCheck(words).PossibleAnswersCheck();
                     break;
 
-                case INTERACTIVE_ARG:
-                default:
+                case GameActions.Interactive:
                     new InteractiveGame(words).PlayGame();
                     break;
+
+                case GameActions.Help:
+                case GameActions.Error:
+                    Console.WriteLine(commandArgs.Docs);
+                    break;
+
+                default:
+                    throw new Exception("Internal error - no action to perform");
             }
         }
     }
