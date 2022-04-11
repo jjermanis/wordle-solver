@@ -8,15 +8,19 @@ namespace wordle_solver
         private const int GUESS_COUNT = 6;
 
         private readonly IEnumerable<string> _words;
+        private readonly bool _isHardMode;
 
-        public InteractiveGame(IEnumerable<string> words)
+        public InteractiveGame(
+            IEnumerable<string> words,
+            bool isHardMode)
         {
             _words = words;
+            _isHardMode = isHardMode;
         }
 
         public void PlayGame()
         {
-            var options = new PossibleWords(_words, GUESS_COUNT);
+            var options = new PossibleWords(_words, GUESS_COUNT, _isHardMode);
             var guesses = new string[6];
 
             Console.WriteLine("Welcome to wordle-solver. This program will help you solve the daily Wordle puzzle.");
@@ -65,7 +69,7 @@ namespace wordle_solver
             Console.WriteLine("made a mistake entering in the results after a guess. I'm going to ask for the");
             Console.WriteLine("results for each guess again. Please enter each result and we'll see if it helps.");
 
-            var options = new PossibleWords(_words, GUESS_COUNT);
+            var options = new PossibleWords(_words, GUESS_COUNT, _isHardMode);
             foreach (var guess in previousGuesses)
             {
                 if (guess == null)

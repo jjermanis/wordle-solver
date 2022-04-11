@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace wordle_solver
@@ -15,12 +14,10 @@ namespace wordle_solver
 
             var commandArgs = new CommandLineArgs(args);
 
-            // TODO: implement hardmode
-
             switch (commandArgs.Action)
             {
                 case GameActions.TestEngine:
-                    new TestGame(words).RunTest();
+                    new TestGame(words, commandArgs.IsHardMode).RunTest();
                     break;
 
                 case GameActions.DictionaryCheckIllegal:
@@ -32,7 +29,7 @@ namespace wordle_solver
                     break;
 
                 case GameActions.Interactive:
-                    new InteractiveGame(words).PlayGame();
+                    new InteractiveGame(words, commandArgs.IsHardMode).PlayGame();
                     break;
 
                 case GameActions.Help:

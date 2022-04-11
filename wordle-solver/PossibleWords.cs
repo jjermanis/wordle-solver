@@ -10,16 +10,23 @@ namespace wordle_solver
 
         private readonly IList<string> _allWords;
         private readonly int _totalGuesses;
+        private readonly bool _isHardMode;
+
         private int _remainingGuesses;
         private LetterDistribution _dist;
         private int? _remainingLetterIndex;
         private IList<WordElement> _options;
 
-        public PossibleWords(IEnumerable<string> words, int totalGuesses)
+        public PossibleWords(
+            IEnumerable<string> words, 
+            int totalGuesses,
+            bool isHardMode)
         {
             _allWords = new List<string>(words);
-            _dist = new LetterDistribution(words);
             _totalGuesses = totalGuesses;
+            _isHardMode = isHardMode;
+
+            _dist = new LetterDistribution(words);
             _remainingGuesses = totalGuesses;
 
             _options = new List<WordElement>();
@@ -35,21 +42,25 @@ namespace wordle_solver
 
         public PossibleWords(
             IList<string> allWords,
+            int totalGuesses,
+            bool isHardMode,
             LetterDistribution letterDistribution,
-            IList<WordElement> startingWordOptions,
-            int totalGuesses)
+            IList<WordElement> startingWordOptions)
         {
             _allWords = allWords;
+            _totalGuesses = totalGuesses;
+            _isHardMode = isHardMode;
+
             _dist = letterDistribution;
             _remainingGuesses = totalGuesses;
-            _totalGuesses = totalGuesses;
             _options = startingWordOptions;
         }
 
         public string BestGuess()
 
         {
-            if (!_remainingLetterIndex.HasValue
+            if (_isHardMode
+                || !_remainingLetterIndex.HasValue
                 || _options.Count <= 2
                 || _remainingGuesses == 1)
                 return _options.FirstOrDefault()?.Word;

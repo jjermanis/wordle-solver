@@ -9,15 +9,18 @@ namespace wordle_solver
     {
         private const int GUESS_COUNT = 6;
         private const int TEST_SIZE = 2000;
-        private readonly bool SHOW_WORD_DETAILS = false;
+        private readonly bool SHOW_WORD_DETAILS = true;
 
         private readonly IList<string> _allWords;
+        private readonly bool _isHardMode;
+
         private readonly LetterDistribution _startingLetterDistribution;
         private readonly IList<WordElement> _startingWordOptions;
 
-        public TestGame(IEnumerable<string> words)
+        public TestGame(IEnumerable<string> words, bool isHardMode)
         {
             _allWords = words.ToList();
+            _isHardMode = isHardMode;
             _startingLetterDistribution = new LetterDistribution(words);
             _startingWordOptions = WordElement.GetWordElementList(words, _startingLetterDistribution);
         }
@@ -51,8 +54,8 @@ namespace wordle_solver
         public int? PlayGame(string target)
         {
             var options = new PossibleWords(
-                _allWords, _startingLetterDistribution,
-                _startingWordOptions, GUESS_COUNT);
+                _allWords, GUESS_COUNT, _isHardMode,
+                _startingLetterDistribution, _startingWordOptions);
 
             for (int i = 0; i < GUESS_COUNT; i++)
             {
