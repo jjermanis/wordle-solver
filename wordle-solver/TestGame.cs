@@ -8,8 +8,7 @@ namespace wordle_solver
     public class TestGame
     {
         private const int GUESS_COUNT = 6;
-        private const int TEST_SIZE = 2000;
-        private readonly bool SHOW_WORD_DETAILS = true;
+        private readonly bool SHOW_WORD_DETAILS = false;
 
         private readonly IList<string> _allWords;
         private readonly bool _isHardMode;
@@ -25,30 +24,46 @@ namespace wordle_solver
             _startingWordOptions = WordElement.GetWordElementList(words, _startingLetterDistribution);
         }
 
-        public void RunTest()
+        public void RunTests()
         {
-            int start = Environment.TickCount;
-            Console.WriteLine($"Running test: {TEST_SIZE} words");
-            var testWords = _allWords.Take(TEST_SIZE);
-            var results = new ResultDistribution(GUESS_COUNT);
+            RunTestCase(2000, 5);
+            RunTestCase(4000, 3);
+        }
+
+        private void RunTestCase(int testSize, int testCaseIterations)
+        {
+            Console.WriteLine($"Running test: {testSize} words");
             if (SHOW_WORD_DETAILS)
                 Console.WriteLine($"First guess: {_startingWordOptions.First()}");
+            var results = new List<ResultDistribution>(testCaseIterations);
+            for (var x=0; x < testCaseIterations; x++)
+            {
+                results.Add(RunSingleCase(testSize));
+            }
+
+            // TODO - confirm all results match
+            results.OrderBy(r => r.Duration);
+            var median = testCaseIterations / 2;
+            Console.WriteLine(results[median]);
+        }
+
+        private ResultDistribution RunSingleCase(int testSize)
+        {
+            var start = Environment.TickCount;
+            var result = new ResultDistribution(GUESS_COUNT);
+            var testWords = _allWords.Take(testSize);
+
             Parallel.ForEach(testWords, word =>
             {
                 var score = PlayGame(word);
                 if (score.HasValue)
-                    results.ScoreCount[score.Value]++;
+                    result.ScoreCount[score.Value]++;
                 else
-                {
-                    results.Misses++;
-                    if (SHOW_WORD_DETAILS)
-                        Console.WriteLine($"Missed: {word}");
-                }
-
+                    result.Misses++;
             });
 
-            Console.Write(results);
-            Console.WriteLine($"Time: {Environment.TickCount - start} ms");
+            result.Duration = Environment.TickCount - start;
+            return result;
         }
 
         public int? PlayGame(string target)

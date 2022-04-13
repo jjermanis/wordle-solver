@@ -12,6 +12,7 @@
 
         public int[] ScoreCount { get; set; }
         public int Misses { get; set; }
+        public int Duration { get; set; }
 
         private decimal Average()
         {
@@ -58,6 +59,7 @@
             result += $"Win Rate: {WinRate():P3}\r\n";
             result += $"Average: {Average():F3}\r\n";
             result += $"Score: {Score():F3}\r\n";
+            result += $"Duration: {Duration} ms\r\n";
             return result;
         }
     }

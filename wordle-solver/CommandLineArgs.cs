@@ -15,11 +15,11 @@ namespace wordle_solver
         private static readonly IReadOnlyDictionary<string, GameActions> ACTIONS
             = new Dictionary<string, GameActions>()
         {
-                { INTERACTIVE_ARG, GameActions.Interactive },
-                { TEST_ARG, GameActions.Interactive },
-                { ILLEGAL_CHECK_ARG, GameActions.Interactive },
-                { LEGAL_CHECK_ARG, GameActions.Interactive },
-                { HELP_ARG, GameActions.Help },
+            { INTERACTIVE_ARG, GameActions.Interactive },
+            { TEST_ARG, GameActions.TestEngine },
+            { ILLEGAL_CHECK_ARG, GameActions.DictionaryCheckIllegal },
+            { LEGAL_CHECK_ARG, GameActions.DictionaryCheckLegal },
+            { HELP_ARG, GameActions.Help },
         };
 
         private static readonly IReadOnlyDictionary<string, string> DOCS
@@ -68,15 +68,18 @@ namespace wordle_solver
             Action = action.Value;
 
             if (Action == GameActions.Help)
+                SetHelpDocs();
+        }
+
+        public void SetHelpDocs()
+        {
+            Docs = "Command line arguments:\r\n";
+            Docs += "    note: only one ACTION can be used when running\r\n";
+            var docArgs = DOCS.Keys.OrderBy(d => d);
+            foreach (var arg in docArgs)
             {
-                Docs = "Command line arguments:\r\n";
-                Docs += "    note: only one ACTION can be used when running\r\n";
-                var docArgs = DOCS.Keys.OrderBy(d => d);
-                foreach (var arg in docArgs)
-                {
-                    var actionText = ACTIONS.ContainsKey(arg) ? "(ACTION)" : "";
-                    Docs += $"{arg} : {actionText} {DOCS[arg]}\r\n";
-                }
+                var actionText = ACTIONS.ContainsKey(arg) ? "(ACTION)" : "";
+                Docs += $"{arg} : {actionText} {DOCS[arg]}\r\n";
             }
         }
     }

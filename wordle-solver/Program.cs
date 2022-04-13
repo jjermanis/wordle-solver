@@ -17,7 +17,7 @@ namespace wordle_solver
             switch (commandArgs.Action)
             {
                 case GameActions.TestEngine:
-                    new TestGame(words, commandArgs.IsHardMode).RunTest();
+                    new TestGame(words, commandArgs.IsHardMode).RunTests();
                     break;
 
                 case GameActions.DictionaryCheckIllegal:
