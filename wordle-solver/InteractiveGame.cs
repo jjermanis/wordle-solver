@@ -20,7 +20,7 @@ namespace wordle_solver
 
         public void PlayGame()
         {
-            var options = new PossibleWords(_words, GUESS_COUNT, _isHardMode);
+            var options = CreateWordChooser(_words);
             var guesses = new string[6];
 
             Console.WriteLine("Welcome to wordle-solver. This program will help you solve the daily Wordle puzzle.");
@@ -44,9 +44,16 @@ namespace wordle_solver
                     Console.WriteLine("Congrats!");
                     return;
                 }
-                options.UpdateGuess(currGuess, result);
+                options.UpdateAfterGuess(currGuess, result);
             }
             Console.WriteLine("Looks like you ran out of guesses. My fault.");
+        }
+
+        private IWordChooser CreateWordChooser(IEnumerable<string> words)
+        {
+            // TODO get this to work for both IWordChooser classes
+            //return new PossibleWords(_words, GUESS_COUNT, _isHardMode);
+            return new MinimizeWorstCaseChooser(words);
         }
 
         private static string PromptResult(string word)
@@ -75,7 +82,7 @@ namespace wordle_solver
                 if (guess == null)
                     break;
                 var result = PromptResult(guess);
-                options.UpdateGuess(guess, result);
+                options.UpdateAfterGuess(guess, result);
             }
             if (options.BestGuess() == null)
             {

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace wordle_solver
 {
-    public class PossibleWords
+    public class PossibleWords : IWordChooser
     {
         private static readonly HashSet<char> VALID_RESULT_CHARS = new HashSet<char> { 'G', 'Y', 'X' };
 
@@ -18,7 +18,7 @@ namespace wordle_solver
         private IList<WordElement> _options;
 
         public PossibleWords(
-            IEnumerable<string> words, 
+            IEnumerable<string> words,
             int totalGuesses,
             bool isHardMode)
         {
@@ -68,7 +68,7 @@ namespace wordle_solver
                 return SearchingGuess();
         }
 
-        public string SearchingGuess()
+        private string SearchingGuess()
         {
             var candidateLetters = new Dictionary<char, int>();
             foreach (var word in _options)
@@ -105,7 +105,7 @@ namespace wordle_solver
             return true;
         }
 
-        public void UpdateGuess(string guess, string result)
+        public void UpdateAfterGuess(string guess, string result)
         {
             _remainingGuesses--;
 

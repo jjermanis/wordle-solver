@@ -1,0 +1,14 @@
+4/13/22
+
+Running test: 2000 words
+1: 0
+2: 11
+3: 325
+4: 1157
+5: 470
+6: 36
+Misses: 1
+Win Rate: 99.950%
+Average: 4.098
+Score: 4.103
+Duration: 144578 ms
