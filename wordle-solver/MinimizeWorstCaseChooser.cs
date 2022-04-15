@@ -29,6 +29,15 @@ namespace wordle_solver
             // TODO weight words based on probability on being a possible answer
             string bestWord = null;
             var bestWorstCaseCount = Int32.MaxValue;
+            foreach (var word in _remainingWords)
+            {
+                var worstCaseCount = WordCaseCount(word);
+                if (worstCaseCount < bestWorstCaseCount)
+                {
+                    bestWord = word;
+                    bestWorstCaseCount = worstCaseCount;
+                }
+            }
             foreach (var word in _allWords)
             {
                 var worstCaseCount = WordCaseCount(word);
@@ -65,6 +74,7 @@ namespace wordle_solver
                     counts[result] = 1;
             }
 
+            // TODO: handle case where there are no elements in counts, and this is an error
             return counts.Values.Max();
         }
 
