@@ -6,13 +6,27 @@ namespace wordle_solver
 {
     public class MinimizeWorstCaseChooser : IWordChooser
     {
-        private readonly IList<string> _allWords;
-        private IList<string> _remainingWords;
+        // Optimization to avoid lengthy calculation of first guess - it's pre-calculated
+        private const string OPENING_GUESS = "stern";
 
-        public MinimizeWorstCaseChooser(IEnumerable<string> words)
+        private readonly IList<string> _allWords;
+        private readonly int _totalGuesses;
+        private readonly bool _isHardMode;
+
+        private IList<string> _remainingWords;
+        private int _remainingGuesses;
+
+        public MinimizeWorstCaseChooser(
+            IEnumerable<string> words,
+            int totalGuesses,
+            bool isHardMode)
         {
             _allWords = new List<string>(words);
+            _totalGuesses = totalGuesses;
+            _isHardMode = isHardMode;
+
             _remainingWords = new List<string>(words);
+            _remainingGuesses = totalGuesses;
         }
 
         public string BestGuess()
@@ -20,33 +34,18 @@ namespace wordle_solver
             if (_remainingWords.Count == 1)
                 return _remainingWords[0];
 
-            // TODO cleanup this optimization
             // TODO consider caching all 2nd turn guesses
-            if (_remainingWords.Count > 3000)
-                return "aloes";
+            if (_remainingGuesses == _totalGuesses)
+                return OPENING_GUESS;
 
-            // TODO bias towards possible answers - check those first
             // TODO weight words based on probability on being a possible answer
+            // TODO on last turn, it should always guess a remaining word
             string bestWord = null;
             var bestWorstCaseCount = Int32.MaxValue;
-            foreach (var word in _remainingWords)
-            {
-                var worstCaseCount = WordCaseCount(word);
-                if (worstCaseCount < bestWorstCaseCount)
-                {
-                    bestWord = word;
-                    bestWorstCaseCount = worstCaseCount;
-                }
-            }
-            foreach (var word in _allWords)
-            {
-                var worstCaseCount = WordCaseCount(word);
-                if (worstCaseCount < bestWorstCaseCount)
-                {
-                    bestWord = word;
-                    bestWorstCaseCount = worstCaseCount;
-                }
-            }
+            (bestWord, bestWorstCaseCount) = FindBestWord(_remainingWords, bestWord, bestWorstCaseCount);
+            if (!_isHardMode && _remainingGuesses > 1)
+                (bestWord, _) = FindBestWord(_allWords, bestWord, bestWorstCaseCount);
+
             return bestWord;
         }
 
@@ -55,19 +54,41 @@ namespace wordle_solver
             var newList = new List<string>();
             foreach (var word in _remainingWords)
             {
-                if (IsWordValid(guess, result, word))
+                if (WordleUtil.IsWordValid(guess, result, word))
                     newList.Add(word);
             }
             _remainingWords = newList;
+            _remainingGuesses--;
+        }
+
+        private (string bestWord, int worstCaseCount) FindBestWord(
+            IEnumerable<string> words,
+            string currBestWord,
+            int currWorstCaseCount)
+        {
+            var bestWord = currBestWord;
+            var bestWorstCaseCount = currWorstCaseCount;
+
+            foreach (var word in words)
+            {
+                var worstCaseCount = WordCaseCount(word);
+                if (worstCaseCount < bestWorstCaseCount)
+                {
+                    bestWord = word;
+                    bestWorstCaseCount = worstCaseCount;
+                }
+            }
+            return (bestWord, bestWorstCaseCount);
         }
 
         private int WordCaseCount(string word)
         {
             var counts = new Dictionary<string, int>();
 
+            // TODO Try something a bit better than best worst case... maybe product of results?
             foreach (var candidate in _remainingWords)
             {
-                var result = CalcResult(word, candidate);
+                var result = WordleUtil.CalcResult(word, candidate);
                 if (counts.ContainsKey(result))
                     counts[result]++;
                 else
@@ -76,47 +97,6 @@ namespace wordle_solver
 
             // TODO: handle case where there are no elements in counts, and this is an error
             return counts.Values.Max();
-        }
-
-        // TODO this is duplicated code. Refactor into common class
-        private static string CalcResult(string guess, string word)
-        {
-            var result = Enumerable.Repeat('X', 5).ToArray();
-            var remainingLetters = new List<char>();
-
-            // Check for greens first
-            for (var x = 0; x < 5; x++)
-            {
-                if (guess[x] == word[x])
-                    result[x] = 'G';
-                else
-                    remainingLetters.Add(word[x]);
-            }
-
-            // Now check for yellows
-            for (var x = 0; x < 5; x++)
-            {
-                if (result[x] != 'G' && remainingLetters.Contains(guess[x]))
-                {
-                    result[x] = 'Y';
-                    remainingLetters.Remove(guess[x]);
-                }
-            }
-
-            return new string(result);
-        }
-
-        // TODO this is duplicated code. Refactor into common class
-        private static bool IsWordValid(string guess, string result, string word)
-        {
-            // Optimization: do a simple check first. For each char, if the result is G, they
-            // need to match, and if the result isn't G, they need to NOT match.
-            for (int x = 0; x < 5; x++)
-                if ((result[x] == 'G') == (guess[x] != word[x]))
-                    return false;
-
-            // Word is valid if it would generate the same result as the most recent guess
-            return result.Equals(CalcResult(guess, word));
         }
     }
 }

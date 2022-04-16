@@ -11,8 +11,7 @@ namespace wordle_solver
         private readonly bool SHOW_WORD_DETAILS = false;
 
         private readonly IList<string> _allWords;
-        // TODO support Hard Mode for MWC choser
-        //private readonly bool _isHardMode;
+        private readonly bool _isHardMode;
 
         private readonly LetterDistribution _startingLetterDistribution;
         private readonly IList<WordElement> _startingWordOptions;
@@ -20,20 +19,21 @@ namespace wordle_solver
         public TestGame(IEnumerable<string> words, bool isHardMode)
         {
             _allWords = words.ToList();
-            //_isHardMode = isHardMode;
+            _isHardMode = isHardMode;
             _startingLetterDistribution = new LetterDistribution(words);
             _startingWordOptions = WordElement.GetWordElementList(words, _startingLetterDistribution);
         }
 
         public void RunTests()
         {
+            // TODO optimize MWC Chooser so running multiple tests is practical
             RunTestCase(2000, 1);
             //RunTestCase(4000, 1);
         }
 
         private void RunTestCase(int testSize, int testCaseIterations)
         {
-            // TODO: see if test case continues to fail for FAILS
+            // TODO: see if test cases continues to fail for JAILS and DAZES
 
             Console.WriteLine($"Running test: {testSize} words");
             if (SHOW_WORD_DETAILS)
@@ -95,10 +95,10 @@ namespace wordle_solver
         private IWordChooser CreateWordChooser(IEnumerable<string> words)
         {
             //return new PossibleWords(_words, GUESS_COUNT, _isHardMode);
-            return new MinimizeWorstCaseChooser(words);
+            return new MinimizeWorstCaseChooser(words, GUESS_COUNT, _isHardMode);
         }
 
         private string GetResult(string guess, string target)
-            => PossibleWords.CalcResult(guess, target);
+            => WordleUtil.CalcResult(guess, target);
     }
 }

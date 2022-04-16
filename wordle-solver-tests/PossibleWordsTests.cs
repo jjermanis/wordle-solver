@@ -9,38 +9,37 @@ namespace wordle_solver_tests
         [TestMethod]
         public void IsWordValid_Arose_Lapse()
         {
-            Assert.IsTrue(PossibleWords.IsWordValid("arose", "YXXGG", "lapse"));
+            Assert.IsTrue(WordleUtil.IsWordValid("arose", "YXXGG", "lapse"));
         }
 
         [TestMethod]
         public void IsWordValid_Tutor_Meter()
         {
-            Assert.IsTrue(PossibleWords.IsWordValid("tutor", "XXGXG", "meter"));
+            Assert.IsTrue(WordleUtil.IsWordValid("tutor", "XXGXG", "meter"));
         }
 
         [TestMethod]
         public void CalcResult_Speed_Abide()
         {
-            Assert.AreEqual("XXYXY", PossibleWords.CalcResult("speed", "abide"));
+            Assert.AreEqual("XXYXY", WordleUtil.CalcResult("speed", "abide"));
         }
 
         [TestMethod]
         public void CalcResult_Speed_Erase()
         {
-            Assert.AreEqual("YXYYX", PossibleWords.CalcResult("speed", "erase"));
+            Assert.AreEqual("YXYYX", WordleUtil.CalcResult("speed", "erase"));
         }
 
         [TestMethod]
         public void CalcResult_Speed_Steal()
         {
-            Assert.AreEqual("GXGXX", PossibleWords.CalcResult("speed", "steal"));
+            Assert.AreEqual("GXGXX", WordleUtil.CalcResult("speed", "steal"));
         }
 
         [TestMethod]
         public void CalcResult_Speed_Crepe()
         {
-            Assert.AreEqual("XYGYX", PossibleWords.CalcResult("speed", "crepe"));
+            Assert.AreEqual("XYGYX", WordleUtil.CalcResult("speed", "crepe"));
         }
-
     }
 }

@@ -49,11 +49,12 @@ namespace wordle_solver
             Console.WriteLine("Looks like you ran out of guesses. My fault.");
         }
 
-        private IWordChooser CreateWordChooser(IEnumerable<string> words)
+        private IWordChooser CreateWordChooser(
+            IEnumerable<string> words)
         {
             // TODO get this to work for both IWordChooser classes
             //return new PossibleWords(_words, GUESS_COUNT, _isHardMode);
-            return new MinimizeWorstCaseChooser(words);
+            return new MinimizeWorstCaseChooser(words, GUESS_COUNT, _isHardMode);
         }
 
         private static string PromptResult(string word)
