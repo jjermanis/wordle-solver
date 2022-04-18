@@ -7,7 +7,7 @@ namespace wordle_solver
     public class MinimizeWorstCaseChooser : IWordChooser
     {
         // Optimization to avoid lengthy calculation of first guess - it's pre-calculated
-        private const string OPENING_GUESS = "stern";
+        private const string OPENING_GUESS = "tares";
 
         private readonly IList<string> _allWords;
         private readonly int _totalGuesses;
@@ -41,10 +41,10 @@ namespace wordle_solver
             // TODO weight words based on probability on being a possible answer
             // TODO on last turn, it should always guess a remaining word
             string bestWord = null;
-            var bestWorstCaseCount = Int32.MaxValue;
-            (bestWord, bestWorstCaseCount) = FindBestWord(_remainingWords, bestWord, bestWorstCaseCount);
+            var bestExpectedCount = Decimal.MaxValue;
+            (bestWord, bestExpectedCount) = FindBestWord(_remainingWords, bestWord, bestExpectedCount);
             if (!_isHardMode && _remainingGuesses > 1)
-                (bestWord, _) = FindBestWord(_allWords, bestWord, bestWorstCaseCount);
+                (bestWord, _) = FindBestWord(_allWords, bestWord, bestExpectedCount);
 
             return bestWord;
         }
@@ -61,27 +61,27 @@ namespace wordle_solver
             _remainingGuesses--;
         }
 
-        private (string bestWord, int worstCaseCount) FindBestWord(
+        private (string bestWord, decimal worstCaseCount) FindBestWord(
             IEnumerable<string> words,
             string currBestWord,
-            int currWorstCaseCount)
+            decimal currExpectedCaseCount)
         {
             var bestWord = currBestWord;
-            var bestWorstCaseCount = currWorstCaseCount;
+            var bestExpectedCaseCount = currExpectedCaseCount;
 
             foreach (var word in words)
             {
-                var worstCaseCount = WordCaseCount(word);
-                if (worstCaseCount < bestWorstCaseCount)
+                var worstCaseCount = ExpectedCaseCount(word);
+                if (worstCaseCount < bestExpectedCaseCount)
                 {
                     bestWord = word;
-                    bestWorstCaseCount = worstCaseCount;
+                    bestExpectedCaseCount = worstCaseCount;
                 }
             }
-            return (bestWord, bestWorstCaseCount);
+            return (bestWord, bestExpectedCaseCount);
         }
 
-        private int WordCaseCount(string word)
+        private decimal ExpectedCaseCount(string word)
         {
             var counts = new Dictionary<string, int>();
 
@@ -95,8 +95,13 @@ namespace wordle_solver
                     counts[result] = 1;
             }
 
-            // TODO: handle case where there are no elements in counts, and this is an error
-            return counts.Values.Max();
+            var temp = 0M;
+            foreach (var resultValue in counts.Keys)
+            {
+                if (!resultValue.Equals("GGGGG"))
+                    temp += counts[resultValue] * counts[resultValue];
+            }
+            return temp / _remainingWords.Count;
         }
     }
 }

@@ -41,3 +41,34 @@ Win Rate: 99.950%
 Average: 3.898
 Score: 3.903
 Duration: 340047 ms
+
+
+4/17/22
+
+Running test: 2000 words
+1: 0
+2: 39
+3: 755
+4: 1021
+5: 171
+6: 14
+Misses: 0
+Win Rate: 100.000%
+Average: 3.683
+Score: 3.683
+Duration: 142531 ms
+
+Running test: 4000 words
+1: 1
+2: 55
+3: 1338
+4: 2144
+5: 428
+6: 34
+Misses: 0
+Win Rate: 100.000%
+Average: 3.761
+Score: 3.761
+Duration: 312578 ms
+
+
