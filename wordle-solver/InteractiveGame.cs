@@ -54,7 +54,7 @@ namespace wordle_solver
         {
             // TODO get this to work for both IWordChooser classes
             //return new PossibleWords(_words, GUESS_COUNT, _isHardMode);
-            return new MinimizeWorstCaseChooser(words, GUESS_COUNT, _isHardMode);
+            return new MinimizeExpectedRemainingCasesChooser(words, GUESS_COUNT, _isHardMode);
         }
 
         private static string PromptResult(string word)

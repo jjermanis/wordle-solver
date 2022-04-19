@@ -6,6 +6,7 @@
         TestEngine,
         DictionaryCheckLegal,
         DictionaryCheckIllegal,
+        TrialFirstGuess,
         Help,
         Error
     }

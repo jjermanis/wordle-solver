@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 
 namespace wordle_solver
 {
@@ -7,8 +6,9 @@ namespace wordle_solver
     {
         public static string CalcResult(string guess, string word)
         {
-            var result = Enumerable.Repeat('X', 5).ToArray();
-            var remainingLetters = new List<char>();
+            //var result = Enumerable.Repeat('X', 5).ToArray();
+            Span<char> result = stackalloc char[5];
+            Span<int> remainingLetters = stackalloc int[27];
 
             // Check for greens first
             for (var x = 0; x < 5; x++)
@@ -16,16 +16,19 @@ namespace wordle_solver
                 if (guess[x] == word[x])
                     result[x] = 'G';
                 else
-                    remainingLetters.Add(word[x]);
+                {
+                    result[x] = 'X';
+                    remainingLetters[word[x] - 'a']++;
+                }
             }
 
             // Now check for yellows
             for (var x = 0; x < 5; x++)
             {
-                if (result[x] != 'G' && remainingLetters.Contains(guess[x]))
+                if (result[x] != 'G' && remainingLetters[guess[x]-'a'] > 0)
                 {
                     result[x] = 'Y';
-                    remainingLetters.Remove(guess[x]);
+                    remainingLetters[guess[x] - 'a']--;
                 }
             }
 
@@ -33,15 +36,8 @@ namespace wordle_solver
         }
 
         public static bool IsWordValid(string guess, string result, string word)
-        {
-            // Optimization: do a simple check first. For each char, if the result is G, they
-            // need to match, and if the result isn't G, they need to NOT match.
-            for (int x = 0; x < 5; x++)
-                if ((result[x] == 'G') == (guess[x] != word[x]))
-                    return false;
-
             // Word is valid if it would generate the same result as the most recent guess
-            return result.Equals(CalcResult(guess, word));
-        }
+            => result.Equals(CalcResult(guess, word));
+
     }
 }

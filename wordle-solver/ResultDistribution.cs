@@ -14,7 +14,7 @@
         public int Misses { get; set; }
         public int Duration { get; set; }
 
-        private decimal Average()
+        public decimal Average()
         {
             decimal total = 0;
             decimal cases = 0;
@@ -26,7 +26,7 @@
             return total / cases;
         }
 
-        private decimal Score()
+        public decimal Score()
         {
             decimal total = 0;
             decimal cases = 0;
@@ -40,7 +40,7 @@
             return total / cases;
         }
 
-        private decimal WinRate()
+        public decimal WinRate()
         {
             decimal cases = 0;
             for (int i = 1; i <= _guessCount; i++)

@@ -10,6 +10,7 @@ namespace wordle_solver
         private const string TEST_ARG = "-t";
         private const string ILLEGAL_CHECK_ARG = "-i";
         private const string LEGAL_CHECK_ARG = "-l";
+        private const string TRIAL_FIRST_GUESS_ARG = "-f";
         private const string HELP_ARG = "-?";
 
         private static readonly IReadOnlyDictionary<string, GameActions> ACTIONS
@@ -19,6 +20,7 @@ namespace wordle_solver
             { TEST_ARG, GameActions.TestEngine },
             { ILLEGAL_CHECK_ARG, GameActions.DictionaryCheckIllegal },
             { LEGAL_CHECK_ARG, GameActions.DictionaryCheckLegal },
+            { TRIAL_FIRST_GUESS_ARG, GameActions.TrialFirstGuess },
             { HELP_ARG, GameActions.Help },
         };
 
@@ -29,7 +31,8 @@ namespace wordle_solver
             { INTERACTIVE_ARG, "Use to help you play Wordle, provides the best guesses for each turn." },
             { TEST_ARG, "Simulates the game many times, providing a performance report." },
             { ILLEGAL_CHECK_ARG, "Checks this programs dictionary to make sure that all its words are acceptable guesses." },
-            { LEGAL_CHECK_ARG, "Checks this programs dictionary to make sure that all possible answers are known." }
+            { LEGAL_CHECK_ARG, "Checks this programs dictionary to make sure that all possible answers are known." },
+            { TRIAL_FIRST_GUESS_ARG, "Tests many promising first guesses, sees which one gets the best score." }
         };
 
         public GameActions Action { get; set; }

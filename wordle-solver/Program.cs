@@ -20,6 +20,10 @@ namespace wordle_solver
                     new TestGame(words, commandArgs.IsHardMode).RunTests();
                     break;
 
+                case GameActions.TrialFirstGuess:
+                    // TODO: implement
+                    throw new NotImplementedException();
+
                 case GameActions.DictionaryCheckIllegal:
                     new DictionaryCheck(words).IllegalWordCheck();
                     break;
