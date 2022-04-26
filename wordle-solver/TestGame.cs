@@ -28,13 +28,20 @@ namespace wordle_solver
         {
             // TODO optimize MWC Chooser so running multiple tests is practical
             RunTestCase(2000, 1);
-            //RunTestCase(4000, 1);
+            RunTestCase(4000, 1);
+        }
+
+        public void TrialFirstGuess(IEnumerable<string> bestFirstGuesses)
+        {
+            foreach (var firstGuess in bestFirstGuesses)
+            {
+                var currResult = RunSingleCase(2000, firstGuess);
+                Console.WriteLine($"{firstGuess}, {currResult.Score()}");
+            }
         }
 
         private void RunTestCase(int testSize, int testCaseIterations)
         {
-            // TODO: see if test cases continues to fail for JAILS and DAZES
-
             Console.WriteLine($"Running test: {testSize} words");
             if (SHOW_WORD_DETAILS)
                 Console.WriteLine($"First guess: {_startingWordOptions.First()}");
@@ -50,7 +57,9 @@ namespace wordle_solver
             Console.WriteLine(results[median]);
         }
 
-        private ResultDistribution RunSingleCase(int testSize)
+        private ResultDistribution RunSingleCase(
+            int testSize,
+            string firstGuess = null)
         {
             var start = Environment.TickCount;
             var result = new ResultDistribution(GUESS_COUNT);
@@ -58,7 +67,7 @@ namespace wordle_solver
 
             Parallel.ForEach(testWords, word =>
             {
-                var score = PlayGame(word);
+                var score = PlayGame(word, firstGuess);
                 if (score.HasValue)
                     result.ScoreCount[score.Value]++;
                 else
@@ -69,7 +78,7 @@ namespace wordle_solver
             return result;
         }
 
-        public int? PlayGame(string target)
+        public int? PlayGame(string target, string firstGuess)
         {
             // TODO cleanup creation of IWordChooser instance
             /*
@@ -77,7 +86,7 @@ namespace wordle_solver
                 _allWords, GUESS_COUNT, _isHardMode,
                 _startingLetterDistribution, _startingWordOptions);
             */
-            var options = CreateWordChooser(_allWords);
+            var options = CreateWordChooser(_allWords, firstGuess);
 
             for (int i = 0; i < GUESS_COUNT; i++)
             {
@@ -92,10 +101,13 @@ namespace wordle_solver
             return null;
         }
 
-        private IWordChooser CreateWordChooser(IEnumerable<string> words)
+        private IWordChooser CreateWordChooser(IEnumerable<string> words, string firstGuess)
         {
             //return new PossibleWords(_words, GUESS_COUNT, _isHardMode);
-            return new MinimizeWorstCaseChooser(words, GUESS_COUNT, _isHardMode);
+            if (firstGuess == null)
+                return new MinimizeExpectedRemainingCasesChooser(words, GUESS_COUNT, _isHardMode);
+            else
+                return new MinimizeExpectedRemainingCasesChooser(words, GUESS_COUNT, _isHardMode, firstGuess);
         }
 
         private string GetResult(string guess, string target)

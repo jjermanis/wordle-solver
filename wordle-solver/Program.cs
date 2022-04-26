@@ -1,19 +1,20 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace wordle_solver
 {
     internal class Program
     {
-
         private const string FILE_PATH = @"..\..\..\words.txt";
+        private const string TRIAL_PATH = @"..\..\..\bestInitialGuesses.txt";
 
         private static void Main(string[] args)
         {
             var words = File.ReadLines(FILE_PATH);
 
             var commandArgs = new CommandLineArgs(args);
-
+ 
             switch (commandArgs.Action)
             {
                 case GameActions.TestEngine:
@@ -21,8 +22,9 @@ namespace wordle_solver
                     break;
 
                 case GameActions.TrialFirstGuess:
-                    // TODO: implement
-                    throw new NotImplementedException();
+                    var firstGuesses = File.ReadLines(TRIAL_PATH).Select(w => w.Split(',')[0]);
+                    new TestGame(words, commandArgs.IsHardMode).TrialFirstGuess(firstGuesses);
+                    break;
 
                 case GameActions.DictionaryCheckIllegal:
                     new DictionaryCheck(words).IllegalWordCheck();

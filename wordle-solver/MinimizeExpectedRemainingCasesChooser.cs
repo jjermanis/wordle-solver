@@ -6,7 +6,7 @@ namespace wordle_solver
     public class MinimizeExpectedRemainingCasesChooser : IWordChooser
     {
         // Optimization to avoid lengthy calculation of first guess - it's pre-calculated
-        private const string OPENING_GUESS = "tares";
+        private const string OPENING_GUESS = "tales";
 
         private readonly IList<string> _allWords;
         private readonly int _totalGuesses;

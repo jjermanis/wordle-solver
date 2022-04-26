@@ -72,3 +72,30 @@ Score: 3.761
 Duration: 312578 ms
 
 
+4/26/22
+
+Running test: 2000 words
+1: 1
+2: 46
+3: 736
+4: 1043
+5: 160
+6: 14
+Misses: 0
+Win Rate: 100.000%
+Average: 3.679
+Score: 3.679
+Duration: 88672 ms
+
+Running test: 4000 words
+1: 1
+2: 69
+3: 1283
+4: 2198
+5: 411
+6: 38
+Misses: 0
+Win Rate: 100.000%
+Average: 3.766
+Score: 3.766
+Duration: 185078 ms
